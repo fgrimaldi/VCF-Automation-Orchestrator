@@ -14,11 +14,11 @@
 // ============================================================================
 
 if (!vmName || vmName.trim() === "") {
-    System.warn("[findVmByName_fast] vmName is empty - returning null");
+    System.warn("[findVmByName] vmName is empty - returning null");
     return null;
 }
 
-System.debug("[findVmByName_fast] Searching VM with name = '" + vmName + "'");
+System.debug("[findVmByName] Searching VM with name = '" + vmName + "'");
 
 // Regex for case-insensitive exact match
 var namePattern = new RegExp("^" + vmName + "$", "i");
@@ -50,7 +50,7 @@ function processObjects(retrieveResult) {
 
                 foundVmUris.push(dunesUri);
 
-                System.debug("[findVmByName_fast] Match found on VC '" + currentVc.name +
+                System.debug("[findVmByName] Match found on VC '" + currentVc.name +
                              "': name=" + vmNameVal + ", moRef=" + morefValue);
                 return true;  // stop at first match
             }
@@ -70,7 +70,7 @@ while (retries > 0) {
 
     var vcs = VcPlugin.allSdkConnections;
     if (!vcs || vcs.length === 0) {
-        System.warn("[findVmByName_fast] No vCenter SDK connections found");
+        System.warn("[findVmByName] No vCenter SDK connections found");
         break;
     }
 
@@ -79,7 +79,7 @@ while (retries > 0) {
 
         if (!vc.viewManager) {
             viewManagerMissing = true;
-            System.warn("[findVmByName_fast] viewManager undefined on VC '" + vc + "'");
+            System.warn("[findVmByName] viewManager undefined on VC '" + vc + "'");
             break;
         }
 
@@ -132,7 +132,7 @@ while (retries > 0) {
                 result = collector.continueRetrievePropertiesEx(token);
             }
         } catch (err) {
-            System.warn("[findVmByName_fast] Error on VC '" + vc.name + "': " + err);
+            System.warn("[findVmByName] Error on VC '" + vc.name + "': " + err);
         } finally {
             try { collector.destroyPropertyCollector(); } catch (ignore1) {}
             try { containerView.destroyView(); } catch (ignore2) {}
@@ -144,21 +144,21 @@ while (retries > 0) {
     if (!viewManagerMissing) break;
 
     retries--;
-    System.warn("[findVmByName_fast] viewManager missing, retrying... retries left: " + retries);
+    System.warn("[findVmByName] viewManager missing, retrying... retries left: " + retries);
 }
 
 // ---------------------------------------------------------------------------
 // 2) Return the found VM
 // ---------------------------------------------------------------------------
 if (foundVmUris.length === 0) {
-    System.warn("[findVmByName_fast] No VM found for name '" + vmName + "'");
+    System.warn("[findVmByName] No VM found for name '" + vmName + "'");
     return null;
 }
 
 if (foundVmUris.length > 1) {
-    System.warn("[findVmByName_fast] Multiple VMs found for '" + vmName + "', returning the first.");
+    System.warn("[findVmByName] Multiple VMs found for '" + vmName + "', returning the first.");
 }
 
 var vmObject = Server.fromUri(foundVmUris[0]);
-System.debug("[findVmByName_fast] Returning VM: " + vmObject.name + " (" + vmObject.id + ")");
+System.debug("[findVmByName] Returning VM: " + vmObject.name + " (" + vmObject.id + ")");
 return vmObject;
