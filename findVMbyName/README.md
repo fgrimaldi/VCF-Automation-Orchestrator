@@ -203,28 +203,3 @@ if (vm.runtime.powerState === "poweredOn") {
 
 ---
 
-## Suggested Git Repository Structure
-
-```
-.
-├── actions/
-│   └── findVmByName.js       # exported vRO action code
-└── README.md                 # this documentation
-```
-
-Recommended header inside `findVmByName.js`:
-
-```js
-// Action: findVmByName
-// Description: Fast VM lookup by name across all registered vCenter SDK connections
-// Input: vmName (string)
-// Output: VC:VirtualMachine or null
-```
-
----
-
-## License
-
-```
-MIT / Apache-2.0 / or any preferred license
-```
